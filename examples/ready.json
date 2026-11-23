@@ -10,7 +10,13 @@
       "id": "LABEL-REVISION",
       "kind": "inspection",
       "result": "pass",
-      "evidence": "E-INSPECT"
+      "evidence": "E-INSPECT",
+      "sampling": {
+        "lot_size": 2400,
+        "aql": 2.5,
+        "inspected": 125,
+        "nonconforming": 0
+      }
     }
   ],
   "evidence": [
@@ -24,7 +30,7 @@
       "requirement": "LABEL-REVISION",
       "kind": "inspection",
       "captured_at": "2026-11-23T09:15:00+08:00",
-      "sha256": "0f9e0638ec9c89afbb81c49a098d6c85d85a92ef9ee957edc22e2c89755e1a58"
+      "sha256": "812e24f8cf2ec58fba991281058a560400dfc0c3f5b5876f8c07ce70baa6fa19"
     },
     {
       "id": "E-REWORK",
