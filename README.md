@@ -20,6 +20,8 @@ python -m unittest discover -s tests -v
 
 Each example declares the order, lot and revision, the required checks and their reported outcomes, and the evidence and exception records. Evidence IDs correspond to `<id>.txt` files in the evidence directory. A record must match the packet scope, requirement and required evidence kind, carry a timestamp with a time zone, and match its declared SHA-256. An exception needs a recorded disposition and a verified corrective-action file before its resolution counts.
 
+An inspection requirement can also declare its `sampling` (`lot_size`, `aql`, `inspected`, `nonconforming`). The verifier looks up the ISO 2859-1 plan (single sampling, normal inspection, general level II, AQL 0.65–6.5), shows it in the report under `sampling_plans`, and blocks the packet if too few units were inspected or a recorded `pass` exceeds the plan's acceptance number. Other AQLs are rejected as invalid input rather than guessed.
+
 The verifier checks package consistency and file integrity. The source manifest supplies the requirements, results, timestamps and expected digests. A human reviewer still confirms the original specification, authenticity of the evidence, disposition and authority to accept or release the order. The demo has no signer identity, access control or production integrations.
 
 ## Software factory walkthrough

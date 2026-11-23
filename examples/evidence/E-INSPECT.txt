@@ -1,3 +1,4 @@
 SYNTHETIC DEMO — PO-DEMO-1042 / LOT-DEMO-07 / REV-B
 Inspection: packaging label matches current specification revision.
+Sampling: ISO 2859-1 level II, AQL 2.5. Lot 2400 cartons, 125 cartons inspected, 0 nonconforming.
 Recorded by: simulated quality inspector. Result: pass.

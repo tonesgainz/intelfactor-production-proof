@@ -8,14 +8,18 @@ from pathlib import Path
 import re
 import sys
 
+from sampling import check as check_sampling
+
 
 IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}")
 DIGEST = re.compile(r"[a-f0-9]{64}")
 
 
-def fields(value, names, label):
-    if not isinstance(value, dict) or value.keys() != set(names.split()):
-        raise ValueError(f"{label} must contain exactly these fields: {names}")
+def fields(value, names, label, optional=""):
+    required, extra = set(names.split()), set(optional.split())
+    if not isinstance(value, dict) or not required <= value.keys() <= required | extra:
+        allowed = f"{names} (optional: {optional})" if optional else names
+        raise ValueError(f"{label} must contain exactly these fields: {allowed}")
 
 
 def identifier(value, label):
@@ -23,12 +27,12 @@ def identifier(value, label):
         raise ValueError(f"{label} must be a valid identifier")
 
 
-def indexed(records, kind, names):
+def indexed(records, kind, names, optional=""):
     if not isinstance(records, list):
         raise ValueError(f"{kind} records must be a list")
     result = {}
     for record in records:
-        fields(record, f"id {names}", kind)
+        fields(record, f"id {names}", kind, optional)
         identifier(record["id"], f"{kind} ID")
         key = record["id"]
         if key in result:
@@ -72,7 +76,9 @@ def evaluate(manifest, directory):
     fields(scope, "order lot revision", "scope")
     for key, value in scope.items():
         identifier(value, key)
-    requirements = indexed(manifest["requirements"], "requirement", "kind result evidence")
+    requirements = indexed(
+        manifest["requirements"], "requirement", "kind result evidence", optional="sampling"
+    )
     if not requirements:
         raise ValueError("at least one requirement is required")
     evidence = indexed(
@@ -98,10 +104,18 @@ def evaluate(manifest, directory):
         record = verified.get(reference)
         return bool(record and record["requirement"] == requirement and record["kind"] == kind)
 
+    sampling_plans = {}
     for key, requirement in sorted(requirements.items()):
         identifier(requirement["kind"], "required evidence kind")
         if requirement["result"] not in ("pass", "fail", "pending"):
             raise ValueError(f"invalid result for requirement {key}")
+        if "sampling" in requirement:
+            try:
+                applied, problems = check_sampling(requirement["sampling"], requirement["result"])
+            except ValueError as exc:
+                raise ValueError(f"requirement {key}: {exc}") from None
+            sampling_plans[key] = applied
+            blockers.extend(f"Requirement {key}: {problem}" for problem in problems)
         if requirement["result"] != "pass":
             blockers.append(f'Requirement {key}: recorded result is {requirement["result"]}')
         if not supports(requirement["evidence"], key, requirement["kind"]):
@@ -129,6 +143,7 @@ def evaluate(manifest, directory):
         "status": "blocked" if blockers else "ready_for_human_review",
         "blockers": blockers,
         "requirements": requirements,
+        "sampling_plans": sampling_plans,
         "exceptions": exceptions,
         "verified_evidence": verified,
         "manifest_sha256": sha256(
