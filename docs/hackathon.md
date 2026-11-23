@@ -11,11 +11,11 @@
 
 ## Evidence to collect
 
-Status as of November 24, 2026. "Blocked: Qodo" means the step needs Qodo connected to this repository, which hasn't happened yet.
+Tracker, status as of November 24, 2026 (HKT). Qodo code review is connected. "Blocked: Qodo" now covers only the Qodo features beyond PR review (Review Standards, Agentic Toolbox and Workflows). The final entry lists only completions verified with links.
 
 | Challenge | Project evidence so far | Still needed |
 | --- | --- | --- |
-| [Day 1 · First delivery](https://github.com/orgs/qodo-hackathon/discussions/2) | Working verifier, fixtures, focused [PR #2](https://github.com/tonesgainz/intelfactor-production-proof/pull/2), green CI | Blocked: Qodo. Needs a completed review on the PR head and one lesson from its findings |
+| [Day 1 · First delivery](https://github.com/orgs/qodo-hackathon/discussions/2) | Working verifier, fixtures, focused [PR #2](https://github.com/tonesgainz/intelfactor-production-proof/pull/2), green CI, [completed Qodo review](https://github.com/tonesgainz/intelfactor-production-proof/pull/2#issuecomment-7110829127), and a Medium finding fixed and marked resolved | Post to the Discussion |
 | [Day 2 · Project rules](https://github.com/orgs/qodo-hackathon/discussions/4) | [AGENTS.md](../AGENTS.md) with five rules and a quality gate | Blocked: Qodo. Confirm the rules are imported into Review Standards |
 | [Day 3 · Backlog](https://github.com/orgs/qodo-hackathon/discussions/5) | [Issue #1](https://github.com/tonesgainz/intelfactor-production-proof/issues/1) with acceptance criteria. Agent works tickets through the `gh` CLI | Second ticket (AQL sampling plan) on its own branch and PR. Compare the review and tests against each ticket |
 | Day 4 · Automated trigger | — | Run the `ready-for-agent` label through a scheduled agent run with a retry limit |
@@ -74,17 +74,17 @@ Add links to the official daily Discussion comments as they are posted. The chal
 
 ### Verification and Qodo’s role
 
-[GitHub Actions passed](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45227844148) on Python 3.11 and 3.13. The suite has 11 tests and exercises both demo outcomes. It checks order, lot and revision matching, missing or modified files, and exception handling.
+[GitHub Actions passed](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45244197482) on Python 3.11 and 3.13 for commit `cae05a1`. The suite has 13 tests (Codex's original 11, plus 2 added after Qodo's review) and exercises both demo outcomes. It checks order, lot and revision matching, missing or modified files, and exception handling.
 
-[Qodo review was requested](https://github.com/tonesgainz/intelfactor-production-proof/pull/2#issuecomment-7110201651). A completed Qodo review is pending. Add the review link for the submitted commit, the specific findings investigated, and the resulting changes or decisions.
+[Qodo's review of PR #2](https://github.com/tonesgainz/intelfactor-production-proof/pull/2#issuecomment-7110829127) completed on `8df34aa` with one Medium correctness finding: a passing inspection captured *before* the corrective action still cleared the exception. It was confirmed against the code, fixed in `cae05a1` with two regression tests that fail without the fix, and Qodo's re-review of `cae05a1` marks it **✓ Resolved** ([gate decision](https://github.com/tonesgainz/intelfactor-production-proof/pull/2#issuecomment-7110954053)). The re-review also raised one Low finding about inconsistent test counts in this document, fixed in the next commit.
 
 ### Contribution and assistance
 
 - **Pre-existing work.** The IntelFactor Evidence Passport concept (an evidence packet tied to one order, lot and specification revision) is Tony Lo's and predates the hackathon. No earlier IntelFactor code is reused in this repository.
 - **Tony Lo.** Chose the project and its buyer problem, set the boundary that people own acceptance, shipment and payment decisions, directed the AI agents and decides every merge. *(Before filing, Tony adds any specific design, review or verification work of his own.)*
-- **Codex (OpenAI).** Generated the initial standalone build during the hackathon: `passport.py`, the synthetic fixtures and evidence files, the 11 unit tests, the GitHub Actions workflow, AGENTS.md, the README and the first version of this document (commits [`df89aa6`](https://github.com/tonesgainz/intelfactor-production-proof/commit/df89aa68b030c67c2a746f728b0ae0cba614895c) and `1c94842`).
-- **Claude (Anthropic, Claude Opus 5.5 in claude.ai).** Read the hackathon rules and all 16 released challenges and mapped each one to this repository's evidence (the table above). Checked the repository for confidential data before it was made public, re-ran the test suite, rewrote this disclosure and drafted the daily Discussion submissions. Later Claude work is listed here with its commit or PR as it lands.
-- **Review and security tools.** Qodo (code review, review standards, Agentic Toolbox) and Arnica (repository scan) are used under their hackathon accounts. Their findings and the decisions taken on them are linked from each daily submission.
+- **Codex (OpenAI).** Generated the initial standalone build during the hackathon: `passport.py`, the synthetic fixtures and evidence files, the original 11 unit tests, the GitHub Actions workflow, AGENTS.md, the README and the first version of this document (commits [`df89aa6`](https://github.com/tonesgainz/intelfactor-production-proof/commit/df89aa68b030c67c2a746f728b0ae0cba614895c) and `1c94842`).
+- **Claude (Anthropic, Claude Opus 5.5 in claude.ai).** Read the hackathon rules and all 16 released challenges and mapped each one to this repository's evidence (the table above). Checked the repository for confidential data before it was made public, re-ran the test suite, rewrote this disclosure and drafted the daily Discussion submissions. Investigated Qodo's Medium finding on this PR, wrote the fix and its regression tests (`cae05a1`). Later Claude work is listed here with its commit or PR as it lands.
+- **Review and security tools.** Qodo code review runs on this repository under Tony Lo's trial workspace, and its reviews are linked above. **Pending, not yet used:** Qodo Review Standards import, Agentic Toolbox (local review, Review Resolver, Codebase Wisdom), Qodo Workflows and the Arnica scan. Each is listed here only once its output can be linked.
 - **Third-party material.** The runtime uses only the Python standard library. CI uses GitHub's `actions/checkout` and `actions/setup-python` (MIT). All order, lot and evidence data is synthetic.
 
 ### Limitations
@@ -93,6 +93,6 @@ The prototype verifies the consistency and file integrity of a synthetic packet.
 
 ## Day 1 introduction draft
 
-I’m Tony Lo, building IntelFactor Production Proof. It’s an Evidence Passport for manufacturers and brands that need to know whether a lot matches the agreed spec before it ships. My first delivery follows one synthetic lot from a packaging mismatch to rework, reinspection and a packet a person can review. [Implementation PR](https://github.com/tonesgainz/intelfactor-production-proof/pull/2) · [Verification run](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45227844148).
+I’m Tony Lo, building IntelFactor Production Proof. It’s an Evidence Passport for manufacturers and brands that need to know whether a lot matches the agreed spec before it ships. My first delivery follows one synthetic lot from a packaging mismatch to rework, reinspection and a packet a person can review. [Implementation PR](https://github.com/tonesgainz/intelfactor-production-proof/pull/2) · [Verification run](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45244197482).
 
 Add the Qodo review and one decision it informed before reporting Day 1 as complete.
