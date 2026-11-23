@@ -1,0 +1,31 @@
+name: Verify Evidence Passport
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -v
+      - name: Exercise both demo outcomes
+        shell: bash
+        run: |
+          python passport.py examples/ready.json examples/evidence
+          status=0
+          python passport.py examples/blocked.json examples/evidence || status=$?
+          test "$status" -eq 1

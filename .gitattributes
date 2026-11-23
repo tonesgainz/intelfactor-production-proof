@@ -1,0 +1,2 @@
+# Preserve the fixture bytes used by the manifests.
+examples/evidence/*.txt text eol=lf
