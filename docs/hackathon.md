@@ -74,7 +74,7 @@ Add links to the official daily Discussion comments as they are posted. The chal
 
 ### Verification and Qodo’s role
 
-[GitHub Actions passed](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45227844148) on Python 3.11 and 3.13. The suite has 11 tests and exercises both demo outcomes. It checks order, lot and revision matching, missing or modified files, and exception handling.
+[GitHub Actions passed](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45227844148) on Python 3.11 and 3.13. The suite has 13 tests and exercises both demo outcomes. It checks order, lot and revision matching, missing or modified files, and exception handling.
 
 [Qodo review was requested](https://github.com/tonesgainz/intelfactor-production-proof/pull/2#issuecomment-7110201651). A completed Qodo review is pending. Add the review link for the submitted commit, the specific findings investigated, and the resulting changes or decisions.
 

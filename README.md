@@ -18,7 +18,7 @@ python -m unittest discover -s tests -v
 | 1 | `blocked`. The report lists the missing checks, invalid evidence or outstanding exceptions. |
 | 2 | Invalid input. The error appears on stderr. |
 
-Each example declares the order, lot and revision, the required checks and their reported outcomes, and the evidence and exception records. Evidence IDs correspond to `<id>.txt` files in the evidence directory. A record must match the packet scope, requirement and required evidence kind, carry a timestamp with a time zone, and match its declared SHA-256. An exception needs a recorded disposition and a verified corrective-action file before its resolution counts.
+Each example declares the order, lot and revision, the required checks and their reported outcomes, and the evidence and exception records. Evidence IDs correspond to `<id>.txt` files in the evidence directory. A record must match the packet scope, requirement and required evidence kind, carry a timestamp with a time zone, and match its declared SHA-256. An exception needs a recorded disposition and a verified corrective-action file before its resolution counts, and the requirement's passing evidence must be captured after that corrective action.
 
 The verifier checks package consistency and file integrity. The source manifest supplies the requirements, results, timestamps and expected digests. A human reviewer still confirms the original specification, authenticity of the evidence, disposition and authority to accept or release the order. The demo has no signer identity, access control or production integrations.
 
