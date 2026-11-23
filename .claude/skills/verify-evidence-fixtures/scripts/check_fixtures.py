@@ -15,15 +15,28 @@ It never rewrites a file or a manifest.
 from hashlib import sha256
 import json
 from pathlib import Path
+import re
 import sys
 
 HEADER = "SYNTHETIC DEMO"
+SCOPE_PARTS = ("order", "lot", "revision")
+
+
+def names(text, value):
+    """True if value appears as a whole token, not inside a longer identifier."""
+    return re.search(rf"(?<![A-Za-z0-9_-]){re.escape(value)}(?![A-Za-z0-9_-])", text) is not None
 
 
 def check_manifest(path, evidence_dir):
     problems, lines = [], []
     manifest = json.loads(path.read_text(encoding="utf-8"))
-    scope = manifest.get("scope", {})
+    scope = manifest.get("scope") if isinstance(manifest, dict) else None
+    if not isinstance(scope, dict) or any(
+        not isinstance(scope.get(part), str) or not scope.get(part).strip() for part in SCOPE_PARTS
+    ):
+        # Without a complete scope there is nothing to check the files against: fail, don't skip.
+        problems.append(f"{path.name}: scope must give a non-empty order, lot and revision")
+        return lines, problems
     for record in manifest.get("evidence", []):
         key = record.get("id", "?")
         file = evidence_dir / f"{key}.txt"
@@ -38,10 +51,14 @@ def check_manifest(path, evidence_dir):
         if not first.startswith(HEADER):
             problems.append(f"{path.name} {key}: first line does not start with '{HEADER}'")
             status = "PROBLEM"
-        for part in ("order", "lot", "revision"):
-            value = scope.get(part)
-            if value and value not in text:
-                problems.append(f"{path.name} {key}: file does not name {part} {value}")
+        if record.get("scope") != {part: scope[part] for part in SCOPE_PARTS}:
+            problems.append(
+                f"{path.name} {key}: record scope {record.get('scope')} differs from manifest scope"
+            )
+            status = "PROBLEM"
+        for part in SCOPE_PARTS:
+            if not names(text, scope[part]):
+                problems.append(f"{path.name} {key}: file does not name {part} {scope[part]}")
                 status = "PROBLEM"
         if actual != record.get("sha256"):
             problems.append(
