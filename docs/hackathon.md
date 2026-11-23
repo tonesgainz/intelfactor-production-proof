@@ -40,10 +40,44 @@ A completed workflow can include pre-commit review with Qodo's local reviewer an
 
 ## Final submission draft
 
-**Project.** IntelFactor Production Proof turns a purchase order, specification revision and production lot into an evidence packet. It detects an unresolved packaging exception, then shows the same lot ready for a human review after corrective action and reinspection.
+### Project
 
-**Walkthrough.** The [README](../README.md) runs both outcomes offline. The issue provides acceptance criteria. The pull request, unit tests and CI show how the coding agent turned the issue into a checked change. Add the final commit, review permalink, any corrections made in response to Qodo and links to the daily submissions before posting.
+**IntelFactor Production Proof** gives a manufacturer and brand a shared evidence packet for one purchase order, production lot and specification revision. It demonstrates a packaging label mismatch, verification of the corrective action, and handoff to a human reviewer.
 
-**Contribution and assistance.** The IntelFactor Evidence Passport concept predates this work. Codex generated this standalone implementation, synthetic fixtures, tests and documentation for Tony Lo in the hackathon window. Before submission, Tony should record his own design, review and verification contributions and disclose any additional assistance accurately.
+- [Project repository](https://github.com/tonesgainz/intelfactor-production-proof)
+- [Implementation PR](https://github.com/tonesgainz/intelfactor-production-proof/pull/2)
+- [Verified implementation commit](https://github.com/tonesgainz/intelfactor-production-proof/commit/df89aa68b030c67c2a746f728b0ae0cba614895c)
 
-**Limitations.** The prototype verifies the consistency and file integrity of a synthetic packet. Authentication, signing, provenance attestation, trusted specification ingestion and live factory integration are outside this increment. A human validates the evidence and decides whether to accept, release or pay for the lot.
+Before filing, verify read access for judges and update the commit link if the implementation changes.
+
+### Walkthrough
+
+1. Run `python passport.py examples/blocked.json examples/evidence`. The result is `blocked` with an open exception and missing inspection evidence.
+2. Run `python passport.py examples/ready.json examples/evidence`. The same lot reaches `ready_for_human_review` with verified rework and inspection records. The reviewer decides whether the lot can be accepted or released.
+3. Follow [issue #1](https://github.com/tonesgainz/intelfactor-production-proof/issues/1) through the implementation PR and review [AGENTS.md](../AGENTS.md) to see how acceptance criteria became verification rules.
+
+The [README](../README.md) has reproduction instructions. Python 3.11 or newer is the only local dependency.
+
+### Completed challenges
+
+Add links to the official daily Discussion comments as they are posted. The challenge table above records evidence available and remaining work for each challenge.
+
+### Verification and Qodo’s role
+
+[GitHub Actions passed](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45227844148) on Python 3.11 and 3.13. The suite has 11 tests and exercises both demo outcomes. It checks order, lot and revision matching, missing or modified files, and exception handling.
+
+[Qodo review was requested](https://github.com/tonesgainz/intelfactor-production-proof/pull/2#issuecomment-7110201651). A completed Qodo review is pending. Add the review link for the submitted commit, the specific findings investigated, and the resulting changes or decisions.
+
+### Contribution and assistance
+
+The IntelFactor Evidence Passport concept predates this work. Codex generated the standalone implementation, synthetic fixtures, tests and documentation during the hackathon. Before filing, add Tony Lo’s own design, review and verification contributions and any other assistance that applied.
+
+### Limitations
+
+The prototype verifies the consistency and file integrity of a synthetic packet. Authentication, signing, provenance attestation and live factory integration are outside this increment. A human validates the source evidence and makes acceptance, shipment and payment decisions.
+
+## Day 1 introduction draft
+
+I’m Tony Lo, building IntelFactor Production Proof. It’s an Evidence Passport for manufacturers and brands that need to know whether a lot matches the agreed spec before it ships. My first delivery follows one synthetic lot from a packaging mismatch to rework, reinspection and a packet a person can review. [Implementation PR](https://github.com/tonesgainz/intelfactor-production-proof/pull/2) · [Verification run](https://github.com/tonesgainz/intelfactor-production-proof/actions/runs/45227844148).
+
+Add the Qodo review and one decision it informed before reporting Day 1 as complete.
