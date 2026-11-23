@@ -134,6 +134,17 @@ def evaluate(manifest, directory):
                 blockers.append(f"Exception {key}: resolution needs a disposition")
             if not supports(exception["evidence"], requirement, "corrective-action"):
                 blockers.append(f"Exception {key}: corrective-action evidence is missing or invalid")
+            else:
+                # The requirement's passing evidence must come from after the rework, or it
+                # does not show that the corrected lot passed.
+                reference = requirements[requirement]["evidence"]
+                recheck = verified.get(reference) if isinstance(reference, str) else None
+                fixed_at = datetime.fromisoformat(verified[exception["evidence"]]["captured_at"])
+                if recheck and datetime.fromisoformat(recheck["captured_at"]) <= fixed_at:
+                    blockers.append(
+                        f"Exception {key}: evidence for requirement {requirement} was captured "
+                        "before the corrective action, so it does not show the corrected lot"
+                    )
         else:
             raise ValueError(f"invalid status for exception {key}")
 

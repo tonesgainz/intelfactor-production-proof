@@ -72,6 +72,22 @@ class PassportTests(unittest.TestCase):
         self.assertEqual(report["status"], "blocked")
         self.assertEqual(len(report["blockers"]), 2)
 
+    def test_reinspection_must_follow_the_corrective_action(self):
+        # Qodo review finding on PR #2: an inspection that predates the rework must not clear it.
+        for inspected_at in ("2026-11-23T09:05:00+08:00", "2026-11-23T09:10:00+08:00",
+                             "2026-11-23T01:05:00+00:00"):
+            with self.subTest(inspected_at=inspected_at):
+                manifest = deepcopy(self.manifest)
+                manifest["evidence"][0]["captured_at"] = inspected_at
+                report = evaluate(manifest, self.directory)
+                self.assertEqual(report["status"], "blocked")
+                self.assertTrue(any("before the corrective action" in r for r in report["blockers"]))
+
+    def test_reinspection_after_rework_in_another_time_zone_counts(self):
+        self.manifest["evidence"][0]["captured_at"] = "2026-11-23T01:15:00+00:00"
+        report = evaluate(self.manifest, self.directory)
+        self.assertEqual(report["status"], "ready_for_human_review")
+
     def test_failed_requirement_blocks_despite_valid_evidence(self):
         self.manifest["requirements"][0]["result"] = "fail"
         report = evaluate(self.manifest, self.directory)

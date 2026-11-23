@@ -18,7 +18,7 @@ python -m unittest discover -s tests -v
 | 1 | `blocked`. The report lists the missing checks, invalid evidence or outstanding exceptions. |
 | 2 | Invalid input. The error appears on stderr. |
 
-Each example declares the order, lot and revision, the required checks and their reported outcomes, and the evidence and exception records. Evidence IDs correspond to `<id>.txt` files in the evidence directory. A record must match the packet scope, requirement and required evidence kind, carry a timestamp with a time zone, and match its declared SHA-256. An exception needs a recorded disposition and a verified corrective-action file before its resolution counts.
+Each example declares the order, lot and revision, the required checks and their reported outcomes, and the evidence and exception records. Evidence IDs correspond to `<id>.txt` files in the evidence directory. A record must match the packet scope, requirement and required evidence kind, carry a timestamp with a time zone, and match its declared SHA-256. An exception needs a recorded disposition and a verified corrective-action file before its resolution counts, and the requirement's passing evidence must be captured after that corrective action.
 
 An inspection requirement can also declare its `sampling` (`lot_size`, `aql`, `inspected`, `nonconforming`). The verifier looks up the ISO 2859-1 plan (single sampling, normal inspection, general level II, AQL 0.65–6.5), shows it in the report under `sampling_plans`, and blocks the packet if too few units were inspected or a recorded `pass` exceeds the plan's acceptance number. Other AQLs are rejected as invalid input rather than guessed.
 
