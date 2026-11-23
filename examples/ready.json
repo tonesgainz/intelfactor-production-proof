@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "order": "PO-DEMO-1042",
+    "lot": "LOT-DEMO-07",
+    "revision": "REV-B"
+  },
+  "requirements": [
+    {
+      "id": "LABEL-REVISION",
+      "kind": "inspection",
+      "result": "pass",
+      "evidence": "E-INSPECT"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-INSPECT",
+      "scope": {
+        "order": "PO-DEMO-1042",
+        "lot": "LOT-DEMO-07",
+        "revision": "REV-B"
+      },
+      "requirement": "LABEL-REVISION",
+      "kind": "inspection",
+      "captured_at": "2026-11-23T09:15:00+08:00",
+      "sha256": "0f9e0638ec9c89afbb81c49a098d6c85d85a92ef9ee957edc22e2c89755e1a58"
+    },
+    {
+      "id": "E-REWORK",
+      "scope": {
+        "order": "PO-DEMO-1042",
+        "lot": "LOT-DEMO-07",
+        "revision": "REV-B"
+      },
+      "requirement": "LABEL-REVISION",
+      "kind": "corrective-action",
+      "captured_at": "2026-11-23T09:10:00+08:00",
+      "sha256": "bb0167ad738bbd41d91c05728a65309225743e5ec56e6d7359bc619112fa0387"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "EX-01",
+      "requirement": "LABEL-REVISION",
+      "status": "resolved",
+      "disposition": "Replaced obsolete labels and reinspected the sampled cartons.",
+      "evidence": "E-REWORK"
+    }
+  ]
+}

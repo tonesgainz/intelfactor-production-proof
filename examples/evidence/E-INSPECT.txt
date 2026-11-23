@@ -1,0 +1,3 @@
+SYNTHETIC DEMO — PO-DEMO-1042 / LOT-DEMO-07 / REV-B
+Inspection: packaging label matches current specification revision.
+Recorded by: simulated quality inspector. Result: pass.
