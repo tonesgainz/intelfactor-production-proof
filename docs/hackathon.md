@@ -11,16 +11,26 @@
 
 ## Evidence to collect
 
-| Challenge | Project evidence | Still needed for the challenge |
-| --- | --- | --- |
-| [Day 1 · First delivery](https://github.com/orgs/qodo-hackathon/discussions/2) | Working verifier, fixtures and focused PR | Completed Qodo review and a lesson from its findings |
-| [Day 2 · Project rules](https://github.com/orgs/qodo-hackathon/discussions/4) | [AGENTS.md](../AGENTS.md) | Confirm that Qodo imports and activates the rules. Explain why shipment decisions are reserved for humans. |
-| [Day 3 · Backlog](https://github.com/orgs/qodo-hackathon/discussions/5) | Linked GitHub ticket with acceptance criteria and a separate PR | Compare Qodo findings and test output to the ticket. Record follow-up decisions. |
-| [Day 9 · Quality gates](https://github.com/orgs/qodo-hackathon/discussions/11) | Saved review gate and regression tests | Apply the gate to current-commit Qodo findings and record the result. |
-| [Day 10 · Verification](https://github.com/orgs/qodo-hackathon/discussions/12) | Ticket, workflow diagram and CI | Demonstrate any remaining Qodo steps and mark where the ticket stopped. |
-| [Day 14 · Approval workflow](https://github.com/orgs/qodo-hackathon/discussions/16) | Intended guard path is `passport.py`. The verifier controls whether evidence can advance. | Requires Qodo workflow admin access and two real test PRs. Any guarded change goes to a maintainer. |
+Status as of November 24, 2026. "Blocked: Qodo" means the step needs Qodo connected to this repository, which hasn't happened yet.
 
-This table covers the challenges directly supported by this increment. Daily posts and final submission are separate steps.
+| Challenge | Project evidence so far | Still needed |
+| --- | --- | --- |
+| [Day 1 · First delivery](https://github.com/orgs/qodo-hackathon/discussions/2) | Working verifier, fixtures, focused [PR #2](https://github.com/tonesgainz/intelfactor-production-proof/pull/2), green CI | Blocked: Qodo. Needs a completed review on the PR head and one lesson from its findings |
+| [Day 2 · Project rules](https://github.com/orgs/qodo-hackathon/discussions/4) | [AGENTS.md](../AGENTS.md) with five rules and a quality gate | Blocked: Qodo. Confirm the rules are imported into Review Standards |
+| [Day 3 · Backlog](https://github.com/orgs/qodo-hackathon/discussions/5) | [Issue #1](https://github.com/tonesgainz/intelfactor-production-proof/issues/1) with acceptance criteria. Agent works tickets through the `gh` CLI | Second ticket (AQL sampling plan) on its own branch and PR. Compare the review and tests against each ticket |
+| Day 4 · Automated trigger | — | Run the `ready-for-agent` label through a scheduled agent run with a retry limit |
+| Day 5 · Self-improving rules | — | Blocked: Qodo. Needs a mined or agent-proposed rule traced to a review comment |
+| Day 6 · Codebase Wisdom | — | Blocked: Qodo Agentic Toolbox. Investigate one ticket before building it |
+| Day 7 · Review Resolver | — | Blocked: Qodo. Resolve findings on an open PR and record the reasons for any left unchanged |
+| Day 8 · Local review | — | Blocked: Qodo. Review uncommitted changes before committing |
+| [Day 9 · Quality gates](https://github.com/orgs/qodo-hackathon/discussions/11) | Gate saved in AGENTS.md | Apply the gate to findings on the current commit |
+| [Day 10 · Verification](https://github.com/orgs/qodo-hackathon/discussions/12) | Diagram below and CI | Add the Qodo steps and walk one real ticket through to main |
+| Day 11 · Custom review | — | Blocked: Qodo. Save the before and after reviews of one unchanged PR |
+| Day 12 · Source context | Issue references in PR descriptions | Blocked: Qodo. Check one acceptance criterion against the review |
+| Day 13 · Skill | — | Write a `SKILL.md` for the evidence-packet check and use it in a fresh session |
+| [Day 14 · Approval workflow](https://github.com/orgs/qodo-hackathon/discussions/16) | Intended guard path is `passport.py` | Blocked: Qodo. One workflow, one guard and two real PRs |
+| Day 15 · Show your factory | — | A public post tagging Qodo |
+| Day 16 · Arnica scan | — | Connect Arnica, record the completed scan and add it to the diagram |
 
 ## Ticket to reviewed pull request
 
@@ -70,7 +80,12 @@ Add links to the official daily Discussion comments as they are posted. The chal
 
 ### Contribution and assistance
 
-The IntelFactor Evidence Passport concept predates this work. Codex generated the standalone implementation, synthetic fixtures, tests and documentation during the hackathon. Before filing, add Tony Lo’s own design, review and verification contributions and any other assistance that applied.
+- **Pre-existing work.** The IntelFactor Evidence Passport concept (an evidence packet tied to one order, lot and specification revision) is Tony Lo's and predates the hackathon. No earlier IntelFactor code is reused in this repository.
+- **Tony Lo.** Chose the project and its buyer problem, set the boundary that people own acceptance, shipment and payment decisions, directed the AI agents and decides every merge. *(Before filing, Tony adds any specific design, review or verification work of his own.)*
+- **Codex (OpenAI).** Generated the initial standalone build during the hackathon: `passport.py`, the synthetic fixtures and evidence files, the 11 unit tests, the GitHub Actions workflow, AGENTS.md, the README and the first version of this document (commits [`df89aa6`](https://github.com/tonesgainz/intelfactor-production-proof/commit/df89aa68b030c67c2a746f728b0ae0cba614895c) and `1c94842`).
+- **Claude (Anthropic, Claude Opus 5.5 in claude.ai).** Read the hackathon rules and all 16 released challenges and mapped each one to this repository's evidence (the table above). Checked the repository for confidential data before it was made public, re-ran the test suite, rewrote this disclosure and drafted the daily Discussion submissions. Later Claude work is listed here with its commit or PR as it lands.
+- **Review and security tools.** Qodo (code review, review standards, Agentic Toolbox) and Arnica (repository scan) are used under their hackathon accounts. Their findings and the decisions taken on them are linked from each daily submission.
+- **Third-party material.** The runtime uses only the Python standard library. CI uses GitHub's `actions/checkout` and `actions/setup-python` (MIT). All order, lot and evidence data is synthetic.
 
 ### Limitations
 
