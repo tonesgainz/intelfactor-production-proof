@@ -12,13 +12,20 @@ procedure keeps both honest.
 ## Inputs
 
 - The repository root as the working directory.
-- The list of files under `examples/` that your change touched (`git status --short examples/`). If you can't
-  say why a file changed, stop and ask the maintainer before continuing.
+- The base branch the work will merge into: the PR's base branch, or `main` if there is no PR. If you can't
+  tell which branch that is, stop and ask.
+- The ticket or PR that explains the fixture changes. If you can't say why a file changed, stop and ask the
+  maintainer before continuing.
 
 ## Steps
 
-1. **List the intended fixture edits.** Run `git status --short examples/` and `git diff --stat examples/`.
-   Write down each changed file and the ticket or reason for the change.
+1. **List every fixture change, committed or not.** Fetch the base first (`git fetch origin <base>`), then run
+   both:
+   - `git diff --stat origin/<base>...HEAD -- examples/` for changes already committed on this branch
+   - `git status --short examples/` for changes not committed yet
+
+   Write down each changed file and the ticket or reason for the change. An empty `git status` does **not** mean
+   nothing changed: on a PR branch the fixture edits are usually already committed.
 2. **Run the fixture check.**
    `python .claude/skills/verify-evidence-fixtures/scripts/check_fixtures.py examples`
    Expected: one `ok` line per evidence record and `All evidence fixtures ... check out.`, with exit code 0.
@@ -40,7 +47,7 @@ procedure keeps both honest.
 
 Paste into the PR description, or into the task report if there is no PR:
 
-- The intended fixture edits from step 1.
+- The fixture changes from step 1 (both commands) and the reason for each.
 - The full output of step 2, including the per-record hash lines.
 - The test summary line from step 5 (`Ran N tests ... OK`).
 - Both demo exit codes and statuses from step 6.
