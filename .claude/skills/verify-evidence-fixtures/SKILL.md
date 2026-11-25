@@ -19,21 +19,25 @@ procedure keeps both honest.
 
 ## Steps
 
-1. **List every fixture change, committed or not.** Fetch the base first (`git fetch origin <base>`), then run
-   both:
-   - `git diff --stat origin/<base>...HEAD -- examples/` for changes already committed on this branch
-   - `git status --short examples/` for changes not committed yet
+1. **Read every fixture change, committed or not.** Fetch the base first (`git fetch origin <base>`), then run:
+   - `git diff origin/<base>...HEAD -- examples/` for changes already committed on this branch
+   - `git diff -- examples/` and `git status --short examples/` for changes not committed yet
 
-   Write down each changed file and the ticket or reason for the change. An empty `git status` does **not** mean
-   nothing changed: on a PR branch the fixture edits are usually already committed.
+   Read the content of each diff, not just the file names. For every changed line, point to the sentence in the
+   ticket or PR that asks for it. A file is an **intended edit** only if every one of its changed lines is
+   accounted for that way. If any line isn't, stop and report the file and the unexplained lines. An empty
+   `git status` does **not** mean nothing changed: on a PR branch the fixture edits are usually already committed.
 2. **Run the fixture check.**
    `python .claude/skills/verify-evidence-fixtures/scripts/check_fixtures.py examples`
    Expected: one `ok` line per evidence record and `All evidence fixtures ... check out.`, with exit code 0.
 3. **If a hash differs:**
-   - If the file is one you intentionally edited in step 1, update only that record's `sha256` in every manifest
-     that declares it, using the `sha256=` value the script printed. Then rerun step 2.
-   - If the file was **not** in your intended edits, **stop**. Report the file, the declared hash and the actual
-     hash to the maintainer. Do not re-hash it.
+   - Re-hash only a file **you edited in this task and have not committed yet**, after step 1 accounted for every
+     changed line. Update only that record's `sha256` in every manifest that declares it, using the `sha256=`
+     value the script printed. Then rerun step 2.
+   - For a change that is **already committed** (someone else's work, or an earlier commit on the branch), never
+     re-hash it. A committed fixture whose hash doesn't match is a defect in that commit. Report the file, the
+     declared hash and the actual hash to the maintainer.
+   - If the file isn't an intended edit at all, **stop**. Report it and do not re-hash it.
 4. **If a file is missing its `SYNTHETIC DEMO` header, or doesn't name the manifest's order, lot or revision,
    stop.** It may be real data or a mismatched fixture. Never add the header to a file you didn't write as
    synthetic data.
@@ -47,7 +51,7 @@ procedure keeps both honest.
 
 Paste into the PR description, or into the task report if there is no PR:
 
-- The fixture changes from step 1 (both commands) and the reason for each.
+- The fixture changes from step 1 (committed and uncommitted), with the ticket or PR sentence behind each changed line.
 - The full output of step 2, including the per-record hash lines.
 - The test summary line from step 5 (`Ran N tests ... OK`).
 - Both demo exit codes and statuses from step 6.
