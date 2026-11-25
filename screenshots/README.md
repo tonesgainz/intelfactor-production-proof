@@ -11,3 +11,5 @@ Captures used in the hackathon Discussion posts. Each one is a real screen or re
 | `day13-run1-steps1-2.png` | Tony's first fresh Claude Code session on `day13/fresh-session-check` at `2eae139`: step 1 reports no fixture edits (the gap this run exposed) and the fixture checker passes |
 | `day13-run1-steps5-6.png` | Same run: 27 tests pass, `ready.json` exits 0 as `ready_for_human_review`, `blocked.json` reports its three blockers |
 | `day13-local-verification-a5cbf4b.png` | Rendered command output (Linux) at `a5cbf4b`. The updated step 1 commands list the committed PR #4 fixture changes, and the checker, 27 tests and both demos pass. Supporting evidence, not the fresh-session run |
+| `day13-run2-invocation.png` | Fresh headless Claude Code session (`2f12736e…`) started in Tony's repo checkout at `a5cbf4b`: the `verify-evidence-fixtures` skill call and the git/gh commands it ran. Rendered from the session's stream-json transcript |
+| `day13-run2-step1-report.png` | Same session's step 1 report, condensed: the ready.json sampling block is traced to ticket #3; the E-INSPECT.txt line and its hash are not, so the skill stops and asks the maintainer to confirm |
