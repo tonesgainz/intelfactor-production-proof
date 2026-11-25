@@ -23,16 +23,17 @@ procedure keeps both honest.
    - `git diff origin/<base>...HEAD -- examples/` for changes already committed on this branch
    - `git diff -- examples/` and `git status --short examples/` for changes not committed yet
 
-   Read the content of each diff, not just the file names. For every changed line, point to the sentence in the
-   ticket or PR that asks for it. A file is an **intended edit** only if every one of its changed lines is
+   Read the content of each diff, not just the file names, and quote the changed lines in your report. For every
+   changed line, point to the sentence in the ticket or PR description that asks for it. That text must come from
+   the maintainer; a reason you work out from the diff itself doesn't count. A file is an **intended edit** only if every one of its changed lines is
    accounted for that way. If any line isn't, stop and report the file and the unexplained lines. An empty
    `git status` does **not** mean nothing changed: on a PR branch the fixture edits are usually already committed.
 2. **Run the fixture check.**
    `python .claude/skills/verify-evidence-fixtures/scripts/check_fixtures.py examples`
    Expected: one `ok` line per evidence record and `All evidence fixtures ... check out.`, with exit code 0.
 3. **If a hash differs:**
-   - Re-hash only a file **you edited in this task and have not committed yet**, after step 1 accounted for every
-     changed line. Update only that record's `sha256` in every manifest that declares it, using the `sha256=`
+   - Re-hash only a file **you edited in this task and have not committed yet**, and only when step 1 matched
+     every changed line to the stated reason. Update only that record's `sha256` in every manifest that declares it, using the `sha256=`
      value the script printed. Then rerun step 2.
    - For a change that is **already committed** (someone else's work, or an earlier commit on the branch), never
      re-hash it. A committed fixture whose hash doesn't match is a defect in that commit. Report the file, the
@@ -58,7 +59,7 @@ Paste into the PR description, or into the task report if there is no PR:
 
 ## When to stop and ask
 
-- A changed fixture that you can't trace to the task.
+- A changed fixture, or any changed line in one, that the ticket or PR doesn't ask for.
 - A hash mismatch on a file you didn't edit.
 - A missing synthetic header, or a scope (order/lot/revision) that doesn't match.
 - A manifest the script can't parse, or a demo exit code other than 0 (ready) or 1 (blocked).
