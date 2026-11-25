@@ -10,3 +10,4 @@ Captures used in the hackathon Discussion posts. Each one is a real screen or re
 | `day01-lot-story.png` | Diagram of the synthetic lot in `examples/` going from blocked to ready for review. Drawn from the example manifests (IDs, times and statuses come from the files) |
 | `day13-run1-steps1-2.png` | Tony's first fresh Claude Code session on `day13/fresh-session-check` at `2eae139`: step 1 reports no fixture edits (the gap this run exposed) and the fixture checker passes |
 | `day13-run1-steps5-6.png` | Same run: 27 tests pass, `ready.json` exits 0 as `ready_for_human_review`, `blocked.json` reports its three blockers |
+| `day13-local-verification-a5cbf4b.png` | Rendered command output (Linux) at `a5cbf4b`. The updated step 1 commands list the committed PR #4 fixture changes, and the checker, 27 tests and both demos pass. Supporting evidence, not the fresh-session run |
