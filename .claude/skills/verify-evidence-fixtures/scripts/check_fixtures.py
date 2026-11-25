@@ -29,8 +29,15 @@ def names(text, value):
 
 def check_manifest(path, evidence_dir):
     problems, lines = [], []
-    manifest = json.loads(path.read_text(encoding="utf-8"))
-    scope = manifest.get("scope") if isinstance(manifest, dict) else None
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        problems.append(f"{path.name}: cannot read manifest: {exc}")
+        return lines, problems
+    if not isinstance(manifest, dict):
+        problems.append(f"{path.name}: manifest must be a JSON object")
+        return lines, problems
+    scope = manifest.get("scope")
     if not isinstance(scope, dict) or any(
         not isinstance(scope.get(part), str) or not scope.get(part).strip() for part in SCOPE_PARTS
     ):
@@ -38,7 +45,10 @@ def check_manifest(path, evidence_dir):
         problems.append(f"{path.name}: scope must give a non-empty order, lot and revision")
         return lines, problems
     for record in manifest.get("evidence", []):
-        key = record.get("id", "?")
+        key = record.get("id") if isinstance(record, dict) else None
+        if not isinstance(key, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", key):
+            problems.append(f"{path.name}: evidence record has a missing or invalid id: {key!r}")
+            continue
         file = evidence_dir / f"{key}.txt"
         if file.is_symlink() or not file.is_file():
             problems.append(f"{path.name} {key}: missing regular file {file}")
