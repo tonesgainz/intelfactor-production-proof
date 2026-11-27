@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "order": "PO-DEMO-1042",
+    "lot": "LOT-DEMO-07",
+    "revision": "REV-B"
+  },
+  "requirements": [
+    {
+      "id": "LABEL-REVISION",
+      "kind": "inspection",
+      "result": "pass",
+      "evidence": "E-INSPECT",
+      "sampling": {
+        "lot_size": 2400,
+        "aql": 2.5,
+        "inspected": 125,
+        "nonconforming": 0
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-INSPECT",
+      "scope": {
+        "order": "PO-DEMO-1042",
+        "lot": "LOT-DEMO-07",
+        "revision": "REV-B"
+      },
+      "requirement": "LABEL-REVISION",
+      "kind": "inspection",
+      "captured_at": "2026-11-23T09:15:00+08:00",
+      "sha256": "812e24f8cf2ec58fba991281058a560400dfc0c3f5b5876f8c07ce70baa6fa19"
+    },
+    {
+      "id": "E-REWORK",
+      "scope": {
+        "order": "PO-DEMO-1042",
+        "lot": "LOT-DEMO-07",
+        "revision": "REV-B"
+      },
+      "requirement": "LABEL-REVISION",
+      "kind": "corrective-action",
+      "captured_at": "2026-11-23T09:10:00+08:00",
+      "sha256": "bb0167ad738bbd41d91c05728a65309225743e5ec56e6d7359bc619112fa0387"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "EX-01",
+      "requirement": "LABEL-REVISION",
+      "status": "resolved",
+      "disposition": "Replaced obsolete labels and reinspected the sampled cartons.",
+      "evidence": "E-REWORK"
+    }
+  ]
+}

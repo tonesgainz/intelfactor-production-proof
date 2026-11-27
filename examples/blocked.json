@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "order": "PO-DEMO-1042",
+    "lot": "LOT-DEMO-07",
+    "revision": "REV-B"
+  },
+  "requirements": [
+    {
+      "id": "LABEL-REVISION",
+      "kind": "inspection",
+      "result": "pending",
+      "evidence": null
+    }
+  ],
+  "evidence": [],
+  "exceptions": [
+    {
+      "id": "EX-01",
+      "requirement": "LABEL-REVISION",
+      "status": "open",
+      "disposition": null,
+      "evidence": null
+    }
+  ]
+}
